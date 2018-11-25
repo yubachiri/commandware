@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   authenticated :user do
-    resources :flows
+    resources :flows do
+      resources :commands
+    end
   end
 
 end

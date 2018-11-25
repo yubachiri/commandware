@@ -1,0 +1,5 @@
+h3 = "#{@flow.name}のコマンド"
+
+== render 'form', flow: @flow
+
+= link_to 'Back', flow_commands_path(@flow)

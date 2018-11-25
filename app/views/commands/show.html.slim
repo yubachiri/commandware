@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @command.name
+p
+  strong Description:
+  = @command.description
+p
+  strong Command:
+  = @command.command
+
+=> link_to 'Edit', edit_flow_command_path(@flow, @command)
+'|
+=< link_to 'Back', flow_commands_path(@flow)

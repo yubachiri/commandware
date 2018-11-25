@@ -1,0 +1,19 @@
+= form_for @command, url: flow_commands_path(flow) do |f|
+  - if @command.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@command.errors.count, "error")} prohibited this command from being saved:"
+      ul
+        - @command.errors.full_messages.each do |message|
+          li = message
+
+  .input-field
+    = f.label :name
+    = f.text_field :name
+  .input-field
+    = f.label :description
+    = f.text_field :description
+  .input-field
+    = f.label :command
+    = f.text_field :command
+  = f.hidden_field :flow_id, value: flow.id
+  .actions = f.submit

@@ -1,0 +1,26 @@
+p = link_to 'flow一覧へ戻る', flows_path
+h3 = "#{@flow.name}のコマンド一覧"
+
+table
+  thead
+    tr
+      th Name
+      th Description
+      th Command
+      th
+      th
+      th
+
+  tbody
+    - @commands.each do |command|
+      tr
+        td = command.name
+        td = command.description
+        td = command.command
+        td = link_to 'Show', flow_command_path(@flow, command)
+        td = link_to 'Edit', edit_flow_command_path(@flow, command)
+        td = link_to 'Destroy', flow_command_path(@flow, command), data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Command', new_flow_command_path
