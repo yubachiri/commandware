@@ -21,6 +21,8 @@ gem 'material_icons'
 gem 'slim-rails'
 gem 'html2slim'
 
+gem 'devise'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
