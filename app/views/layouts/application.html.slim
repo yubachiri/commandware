@@ -5,4 +5,6 @@ html
       | Commandware
     = render 'layouts/head_tags'
   body
-    = yield
+    = render 'layouts/header'
+    .container
+      = yield
