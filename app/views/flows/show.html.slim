@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @flow.name
+p
+  strong Description:
+  = @flow.description
+
+=> link_to 'Edit', edit_flow_path(@flow)
+'|
+=< link_to 'Back', flows_path
