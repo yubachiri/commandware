@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as getters from './getters'
-import * as actions from './actions'
-import * as mutations from './mutations'
+import getters from './getters'
+import actions from './actions'
+import mutations from './mutations'
 
 Vue.use(Vuex)
 
 const state = {
-  message: 'hello, vue with Rails!'
+  message: 'hello, vue with Rails!',
+  counter: 0
 }
 
 export default new Vuex.Store({

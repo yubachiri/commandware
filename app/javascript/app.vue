@@ -8,7 +8,7 @@
 export default {
   data: function () {
     return {
-      message: this.$store.state.message
+      message: this.$store.getters.messageGetter
     }
   }
 }
