@@ -21,6 +21,8 @@ gem 'material_icons'
 gem 'slim-rails'
 gem 'html2slim'
 
+gem 'foreman'
+
 gem 'devise'
 
 group :development, :test do
