@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       newCommandForm() {
         this.detailEditable = true
         this.editCommand = {
+          id: null,
           name: '',
           description: '',
           command: ''
@@ -136,10 +137,49 @@ document.addEventListener('DOMContentLoaded', () => {
         this.editCommand = store.state.command
       },
 
-      postCommand() {
-        // TODO 実装
-        console.log('called')
-      }
+      // FIXME storeのcommandが残ってしまうバグあり
+      postCommand(flowId) {
+        axios.post(`/flows/${flowId}/commands.json`, {
+          command: {
+            name: this.editCommand.name,
+            description: this.editCommand.description,
+            command: this.editCommand.command
+          }
+        })
+          .then(response => {
+            this.editCommand = {
+              name: '',
+              description: '',
+              command: ''
+            }
+            store.commit('addCommand', response.data)
+          })
+          .catch(error => {
+            alert('エラーが発生しました。')
+          })
+      },
+
+      updateCommand(flowId, commandId) {
+        axios.put(`/flows/${flowId}/commands/${commandId}.json`, {
+          command: {
+            name: this.editCommand.name,
+            description: this.editCommand.description,
+            command: this.editCommand.command
+          }
+        })
+          .then(response => {
+            this.editCommand = {
+              name: '',
+              description: '',
+              command: ''
+            }
+            store.commit('updateCommand', response.data)
+          })
+          .catch(error => {
+            alert('エラーが発生しました。')
+          })
+      },
+
     },
 
   })

@@ -23,8 +23,17 @@ export default {
     state.command = command
   },
 
-  addFlow(state, flow){
+  addFlow(state, flow) {
     state.flows.push(flow)
-  }
+  },
+  addCommand(state, command) {
+    state.commands.push(command)
+  },
+  updateCommand(state, newCommand) {
+    var targetCommand = state.commands.filter(command => {
+      return command.id === newCommand.id
+    })[0]
+    targetCommand = newCommand
+  },
 
 }

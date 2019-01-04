@@ -11,8 +11,8 @@
           .collection-header
             | Flows
           .collection-item.new-flow-section
-            form @submit.prevent="postFlow"
-              input.new-flow-input type="text" placeholder="add by push Enter" v-model="newFlow"
+            form @submit.prevent= "postFlow"
+            input.new-flow-input type="text" placeholder="add by push Enter" v-model="newFlow"
           .collection-item.clickable-item {v-for="flow in flows" :key="flow.id" @click="commandsDisplay(flow.id)"} = "{{flow.name}}"
 
       / メイン
@@ -67,12 +67,24 @@
               p = "description: {{command.description}}"
               p = "command: {{command.command}}"
 
-            // new / edit
+            // new & edit
             .section.detail-main {v-if="detailEditable"}
-              form @submit.prevent="postCommand"
-                input type="text" v-model="editCommand.name" placeholder="name"
-                input type="text" v-model="editCommand.description" placeholder="description"
-                input type="text" v-model="editCommand.command" placeholder="command"
+              - method = nil
+              - if "{{editCommand.id}}".present?
+                - method = "updateCommand(flow.id, command.id)"
+                / form @submit.prevent= "updateCommand(flow.id, command.id)"
+              - else
+                - method = "postCommand(flow.id)"
+                / form @submit.prevent= "postCommand(flow.id)"
+              form @submit.prevent=method
+                input type="hidden" v-model="editCommand.id"
+
+                .input-field
+                  input id="command[name]" type="text" v-model="editCommand.name" placeholder="name"
+                .input-field
+                  textarea.materialize-textarea id="command[description]" v-model="editCommand.description" placeholder="description"
+                .input-field
+                  input id="command[command]" type="text" v-model="editCommand.command" placeholder="command"
                 button class="btn waves-effect waves-light right" type="submit" name="action"
                   | Submit
                   i.material-icons.right send
