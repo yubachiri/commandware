@@ -1,12 +1,57 @@
 - if user_signed_in?
-  = link_to 'flows', flows_path
+  / = link_to 'flows', flows_path
 
-= javascript_pack_tag 'commandware'
+  = javascript_pack_tag 'commandware'
 
-#app
-  .row
-    button {@click="commandViewToggle"} commandView
-    button {@click="detailViewToggle"} detailView
-  .row
-    div.red {v-if="commandViewVisible" :class="viewGrid"} commandView
-    div.orange {v-if="detailViewVisible" :class="viewGrid"} detailView
+  #commandware
+    .row
+      / サイドバー（Flow一覧）
+      .col.s2
+        .collection.with-header
+          .collection-header Flows
+          .collection-item {v-for="flow in flows" :key="flow.id" @click="commandsDisplay(flow.id);"} = "{{flow.name}}"
+
+      / メイン
+      .col.s10
+        .row
+
+          / コマンド一覧
+          div.card.command-view {v-if="commandViewVisible" :class="viewGrid"}
+            nav.panel-header
+              .nav-wrapper
+                a.brand-logo = "{{flow.name}}"
+                ul.right
+                  li
+                    a.btn-floating.btn-small.left {@click="commandViewToggle"}
+                      i.material-icons.light-blue add
+                  li
+                    a.btn-floating.btn-small.right {@click="commandViewToggle"}
+                      i.material-icons.red close
+
+            .section.commands-main
+              table
+                thead
+                  th name
+                  th description
+                  th command
+                tbody
+                  tr {v-for="command in commands" :key="command.id" @click="commandDisplay(command.id)"}
+                    td = "{{command.name}}"
+                    td = "{{command.description}}"
+                    td = "{{command.command}}"
+
+          / コマンド詳細
+          div.card.detail-view {v-if="detailViewVisible" :class="viewGrid"}
+            nav.panel-header
+              .nav-wrapper
+                a.brand-logo = "{{command.name}}"
+                ul.right
+                  li
+                    a.btn-floating.btn-small.left {@click="detailViewToggle"}
+                      i.material-icons.light-blue add
+                  li
+                    a.btn-floating.btn-small.right {@click="detailViewToggle"}
+                      i.material-icons.red close
+            .section.detail-main
+              p = "name: {{command.name}}"
+              p = "description: {{command.description}}"

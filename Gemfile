@@ -20,6 +20,7 @@ gem 'materialize-sass', '~> 1.0.0'
 gem 'material_icons'
 gem 'slim-rails'
 gem 'html2slim'
+gem 'gon'
 
 gem 'foreman'
 

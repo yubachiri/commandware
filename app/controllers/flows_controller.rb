@@ -3,6 +3,7 @@ class FlowsController < ApplicationController
 
   def index
     @flows = current_user.flows
+    render :index, format: :json
   end
 
   def show
