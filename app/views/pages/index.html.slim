@@ -1,4 +1,12 @@
 - if user_signed_in?
   = link_to 'flows', flows_path
 
-= javascript_pack_tag 'hello_vue'
+= javascript_pack_tag 'commandware'
+
+#app
+  .row
+    button {@click="commandViewToggle"} commandView
+    button {@click="detailViewToggle"} detailView
+  .row
+    div.red {v-if="commandViewVisible" :class="viewGrid"} commandView
+    div.orange {v-if="detailViewVisible" :class="viewGrid"} detailView
