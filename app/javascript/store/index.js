@@ -7,8 +7,8 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
-  message: 'hello, vue with Rails!',
-  counter: 0
+  commandViewVisible: false,
+  detailViewVisible: false,
 }
 
 export default new Vuex.Store({
