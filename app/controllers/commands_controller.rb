@@ -4,7 +4,8 @@ class CommandsController < ApplicationController
   before_action :set_flow
 
   def index
-    @commands = Command.all
+    @commands = @flow.commands.all
+    render :index, format: :json
   end
 
   def show

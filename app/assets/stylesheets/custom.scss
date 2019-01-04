@@ -1,8 +1,43 @@
 nav {
-  .brand-logo{
+  .brand-logo {
     margin-left: 10px;
   }
+
   a {
     color: #2E2F30 !important;
   }
+}
+
+#commandware {
+  margin-top: 15px;
+}
+
+.command-view {
+  margin-left: 1em !important;
+  padding: 0px !important;
+}
+
+.commands-main {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+.detail-view {
+  margin-left: 2em !important;
+  padding: 0px !important;
+}
+
+.detail-main {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+nav.panel-header {
+  height: 50px;
+  padding-top: 10px;
+
+  .brand-logo {
+    line-height: 28px !important;
+  }
+
 }
