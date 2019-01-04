@@ -8,7 +8,11 @@
       / サイドバー（Flow一覧）
       .col.s2
         .collection.with-header
-          .collection-header Flows
+          .collection-header
+            | Flows
+          .collection-item.new-flow-section
+            form @submit.prevent=""
+            input.new-flow-input type="text" placeholder="new flow" v-model="newFlow"
           .collection-item {v-for="flow in flows" :key="flow.id" @click="commandsDisplay(flow.id);"} = "{{flow.name}}"
 
       / メイン

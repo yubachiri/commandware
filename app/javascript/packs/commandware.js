@@ -2,7 +2,6 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex';
 import store from '../store/index';
 import axios from 'axios';
-// import TurbolinksAdapter from 'vue-turbolinks'
 
 Vue.use(Vuex);
 
@@ -12,10 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     store,
 
     data: {
-      flows: gon.flows,
-      flow: {},
-      commands: [],
-      command: {},
+      newFlow: '',
     },
 
     computed: {
@@ -27,6 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       detailViewVisible: function () {
         return store.state.detailViewVisible
+      },
+
+      flow: function () {
+        return store.state.flow
+      },
+      flows: function () {
+        return store.state.flows
+      },
+      commands: function () {
+        return store.state.commands
+      },
+      command: function () {
+        return store.state.command
       },
 
     },
@@ -54,28 +63,33 @@ document.addEventListener('DOMContentLoaded', () => {
       getFlows() {
         axios.get('/flows.json')
           .then(response => {
-            this.flows = response.data
+            store.commit('assignFlows', response.data)
           })
       },
 
       getFlow(flowId) {
         axios.get(`/flows/${flowId}.json`)
           .then(response => {
-            this.flow = response.data
+            store.commit('assignFlow', response.data)
           })
+      },
+
+      postFlow() {
+        // TODO 実装
       },
 
       getCommands(flowId) {
         axios.get(`/flows/${flowId}/commands.json`)
           .then(response => {
-            this.commands = response.data
+            store.commit('assignCommands', response.data)
           })
       },
 
       getCommand(commandId) {
-        this.command = this.commands.filter(command => {
+        const command = this.commands.filter(command => {
           return command.id === commandId
         })[0]
+        store.commit('assignCommand', command)
       }
     },
 

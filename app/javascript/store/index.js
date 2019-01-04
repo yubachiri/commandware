@@ -9,6 +9,10 @@ Vue.use(Vuex)
 const state = {
   commandViewVisible: false,
   detailViewVisible: false,
+  flows: gon.flows,
+  flow: {},
+  commands: [],
+  command: {},
 }
 
 export default new Vuex.Store({
