@@ -1,12 +1,12 @@
 export default {
 
-  viewToggle(state, {targetView}) {
+  viewToggle(state, {targetView, isShow}) {
     const viewList = {
       "commandView": "commandViewVisible",
       "detailView": "detailViewVisible"
     }
     if (typeof viewList[targetView] !== "undefined") {
-      state[viewList[targetView]] = !state[viewList[targetView]]
+      state[viewList[targetView]] = isShow
     }
   },
 
@@ -22,5 +22,9 @@ export default {
   assignCommand(state, command) {
     state.command = command
   },
+
+  addFlow(state, flow){
+    state.flows.push(flow)
+  }
 
 }

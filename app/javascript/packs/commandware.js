@@ -5,6 +5,11 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
+axios.defaults.headers.common = {
+  'X-Requested-With': 'XMLHttpRequest',
+  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     el: '#commandware',
@@ -12,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     data: {
       newFlow: '',
+      editCommand: {
+        name: '',
+        description: '',
+        command: ''
+      },
+      detailEditable: false,
     },
 
     computed: {
@@ -43,21 +54,28 @@ document.addEventListener('DOMContentLoaded', () => {
     methods: {
 
       commandsDisplay(flowId) {
-        this.commandViewToggle()
+        this.commandViewAppear()
         this.getFlow(flowId)
         this.getCommands(flowId)
       },
 
       commandDisplay(commandId) {
-        this.detailViewToggle()
+        this.detailEditable = false
+        this.detailViewAppear()
         this.getCommand(commandId)
       },
 
-      commandViewToggle() {
-        store.commit('viewToggle', {targetView: 'commandView'})
+      commandViewAppear() {
+        store.commit('viewToggle', {targetView: 'commandView', isShow: true})
       },
-      detailViewToggle() {
-        store.commit('viewToggle', {targetView: 'detailView'})
+      detailViewAppear() {
+        store.commit('viewToggle', {targetView: 'detailView', isShow: true})
+      },
+      commandViewDisappear() {
+        store.commit('viewToggle', {targetView: 'commandView', isShow: false})
+      },
+      detailViewDisappear() {
+        store.commit('viewToggle', {targetView: 'detailView', isShow: false})
       },
 
       getFlows() {
@@ -75,7 +93,18 @@ document.addEventListener('DOMContentLoaded', () => {
       },
 
       postFlow() {
-        // TODO 実装
+        axios.post(`/flows.json`, {
+          flow: {
+            name: this.newFlow
+          }
+        })
+          .then(response => {
+            this.newFlow = ''
+            store.commit('addFlow', response.data)
+          })
+          .catch(error => {
+            alert('エラーが発生しました。')
+          })
       },
 
       getCommands(flowId) {
@@ -90,6 +119,26 @@ document.addEventListener('DOMContentLoaded', () => {
           return command.id === commandId
         })[0]
         store.commit('assignCommand', command)
+      },
+
+      newCommandForm() {
+        this.detailEditable = true
+        this.editCommand = {
+          name: '',
+          description: '',
+          command: ''
+        }
+        this.detailViewAppear()
+      },
+
+      openEditCommandForm() {
+        this.detailEditable = true
+        this.editCommand = store.state.command
+      },
+
+      postCommand() {
+        // TODO 実装
+        console.log('called')
       }
     },
 

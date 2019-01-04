@@ -12,6 +12,10 @@ nav {
 
   margin-top: 15px;
 
+  .clickable-item {
+    cursor: pointer;
+  }
+
   .command-view {
     margin-left: 1em !important;
     padding: 0px !important;
@@ -39,7 +43,6 @@ nav {
     .brand-logo {
       line-height: 28px !important;
     }
-
   }
 
   .new-flow-section {

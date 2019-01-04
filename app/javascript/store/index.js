@@ -9,6 +9,7 @@ Vue.use(Vuex)
 const state = {
   commandViewVisible: false,
   detailViewVisible: false,
+  detailEditable: false,
   flows: gon.flows,
   flow: {},
   commands: [],
