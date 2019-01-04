@@ -1,11 +1,11 @@
 import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex';
 import store from '../store/index';
-import TurbolinksAdapter from 'vue-turbolinks'
+// import TurbolinksAdapter from 'vue-turbolinks'
 
 Vue.use(Vuex);
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     el: '#app',
     store,
@@ -17,10 +17,10 @@ document.addEventListener('turbolinks:load', () => {
       viewGrid: function () {
         return store.getters.viewGrid
       },
-      commandViewVisible: function(){
+      commandViewVisible: function () {
         return store.state.commandViewVisible
       },
-      detailViewVisible: function(){
+      detailViewVisible: function () {
         return store.state.detailViewVisible
       }
     },

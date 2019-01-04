@@ -1,22 +1,27 @@
-.row
-  h2
-    | Log in
-  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-    .input-field
-      = f.label :email
-      = f.email_field :email, autofocus: true, autocomplete: "email"
-    .input-field
-      = f.label :password
-      = f.password_field :password, autocomplete: "current-password"
-    / - if devise_mapping.rememberable?
-    /   .field
-    /     = f.check_box :remember_me
-    /     = f.label :remember_me
-    .actions
-      = f.submit "Log in", class: 'btn'
-  / = render "devise/shared/links"
+.container
+  .row.section
+    .card.col.s8.offset-s2
+      .row
+        .col.s8.offset-s2
+          h2
+            | Log in
+          = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+            .input-field
+              = f.label :email
+              = f.email_field :email, autofocus: true, autocomplete: "email"
+            .input-field
+              = f.label :password
+              = f.password_field :password, autocomplete: "current-password"
+            / - if devise_mapping.rememberable?
+            /   .field
+            /     = f.check_box :remember_me
+            /     = f.label :remember_me
+            .actions
+              = f.submit "Log in", class: 'btn'
+          / = render "devise/shared/links"
 
-.divider
 
-.row
-  = link_to 'アカウント作成', new_user_registration_path
+      .row
+        .col.s8.offset-s2
+          .divider
+          = link_to 'アカウント作成', new_user_registration_path
