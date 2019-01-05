@@ -10,8 +10,12 @@ nav {
 
 #top {
 
-  .service-header {
+  .service-colored {
     color: lightblue;
+  }
+
+  .top-description{
+    margin-bottom: 40px;
   }
 
   .fixed {
@@ -76,8 +80,11 @@ nav {
     padding-top: 6rem;
   }
 
-  .top-wrapper {
-    margin: 50px;
+  .top-footer {
+    background-color: lightblue;
+    color: black;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 }
 

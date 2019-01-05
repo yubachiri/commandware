@@ -7,14 +7,19 @@
 
         = image_tag 'command.jpg', class: 'command-image'
 
-      .col.s6.offset-s6.top-contents
+      .col.s6.offset-s6.top-contents.top-description
         = render 'layouts/top_header'
 
         .row
           .section.title-section
-            .center.service-header
+            .center.service-colored
               h2.logo Commandware
-              p もうあの一行をググりたくない全ての人に捧ぐ
+              p あの一行をもうググりたくない全ての人へ
+
+        .row
+          .section.get-started.center-align
+            a.btn-large.light-blue href=new_user_registration_path
+              | Get Started!
 
         .row
           .section
@@ -29,6 +34,23 @@
             .col.s12
               h2 → Happy
 
+        .row
+          .section.center
+            .col.s12
+              h2 so...
+
+        .row
+          .section.get-started.center-align
+            a.btn-large.light-blue href=new_user_registration_path
+              | Get Started!
+
+    .row.top-contents
+      div.top-footer
+        .row
+          .col.s6.offset-s6
+            p.center-align
+              | 諸々 ->
+              = link_to '@yubachiri', 'https://twitter.com/yubachiri', target: '_blank'
 
 - else
 
