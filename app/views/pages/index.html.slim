@@ -1,5 +1,4 @@
 - if user_signed_in?
-  / = link_to 'flows', flows_path
 
   = javascript_pack_tag 'commandware'
 
@@ -69,14 +68,7 @@
 
             // new & edit
             .section.detail-main {v-if="detailEditable"}
-              - method = nil
-              - if "{{editCommand.id}}".present?
-                - method = "updateCommand(flow.id, command.id)"
-                / form @submit.prevent= "updateCommand(flow.id, command.id)"
-              - else
-                - method = "postCommand(flow.id)"
-                / form @submit.prevent= "postCommand(flow.id)"
-              form @submit.prevent=method
+              form @submit.prevent="saveCommand(flow.id, command.id)"
                 input type="hidden" v-model="editCommand.id"
 
                 .input-field

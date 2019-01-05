@@ -28,12 +28,18 @@ export default {
   },
   addCommand(state, command) {
     state.commands.push(command)
+    state.command = {}
   },
   updateCommand(state, newCommand) {
     var targetCommand = state.commands.filter(command => {
       return command.id === newCommand.id
     })[0]
     targetCommand = newCommand
+    state.command = {}
+  },
+
+  cleanCommand(state) {
+    state.command = {}
   },
 
 }

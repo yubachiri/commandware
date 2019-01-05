@@ -130,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
           command: ''
         }
         this.detailViewAppear()
+        store.commit('cleanCommand')
       },
 
       openEditCommandForm() {
@@ -137,7 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
         this.editCommand = store.state.command
       },
 
-      // FIXME storeのcommandが残ってしまうバグあり
+      saveCommand(flowId, commandId){
+        if(commandId === undefined){
+          this.postCommand(flowId)
+        } else {
+          this.updateCommand(flowId, commandId)
+        }
+      },
+
       postCommand(flowId) {
         axios.post(`/flows/${flowId}/commands.json`, {
           command: {
@@ -153,9 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
               command: ''
             }
             store.commit('addCommand', response.data)
+            this.detailViewDisappear()
           })
           .catch(error => {
-            alert('エラーが発生しました。')
+            alert('コマンド追加の際にエラーが発生しました。')
           })
       },
 
@@ -174,9 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
               command: ''
             }
             store.commit('updateCommand', response.data)
+            this.detailViewDisappear()
           })
           .catch(error => {
-            alert('エラーが発生しました。')
+            alert('コマンド更新の際にエラーが発生しました。')
           })
       },
 
