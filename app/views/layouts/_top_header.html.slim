@@ -2,4 +2,6 @@ nav.top-header
   .nav-wrapper
     ul id="nav-mobile" class="right hide-on-med-and-down"
       li
-        a test
+        = link_to 'Login', new_user_session_path
+      li
+        = link_to 'Sign up', new_user_registration_path

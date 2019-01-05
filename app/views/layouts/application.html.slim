@@ -5,6 +5,6 @@ html
       | Commandware
     = render 'layouts/head_tags'
   body
-    - if user_signed_in?
+    - unless @top_header
       = render 'layouts/header'
     = yield

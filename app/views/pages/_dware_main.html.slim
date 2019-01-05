@@ -3,17 +3,17 @@
 #commandware
   .row
     / サイドバー（Flow一覧）
-    .col.s2
+    .col.s3
       .collection.with-header
         .collection-header
           | Flows
         .collection-item.new-flow-section
           form @submit.prevent="postFlow"
-          input.new-flow-input type="text" placeholder="add by push Enter" v-model="newFlow"
+            input.new-flow-input type="text" placeholder="add by push Enter" v-model="newFlow"
         .collection-item.clickable-item {v-for="flow in flows" :key="flow.id" @click="commandsDisplay(flow.id)"} = "{{flow.name}}"
 
     / メイン
-    .col.s10
+    .col.s9
       .row
 
         / コマンド一覧
@@ -67,14 +67,14 @@
           // new & edit
           .section.detail-main {v-if="detailEditable"}
             form @submit.prevent="saveCommand(flow.id, command.id)"
-            input type="hidden" v-model="editCommand.id"
+              input type="hidden" v-model="editCommand.id"
 
-            .input-field
-              input id="command[name]" type="text" v-model="editCommand.name" placeholder="name"
-            .input-field
-              textarea.materialize-textarea id="command[description]" v-model="editCommand.description" placeholder="description"
-            .input-field
-              input id="command[command]" type="text" v-model="editCommand.command" placeholder="command"
-            button class="btn waves-effect waves-light right" type="submit" name="action"
-              | Submit
-              i.material-icons.right send
+              .input-field
+                input id="command[name]" type="text" v-model="editCommand.name" placeholder="name"
+              .input-field
+                textarea.materialize-textarea id="command[description]" v-model="editCommand.description" placeholder="description"
+              .input-field
+                input id="command[command]" type="text" v-model="editCommand.command" placeholder="command"
+              button class="btn waves-effect waves-light right" type="submit" name="action"
+                | Submit
+                i.material-icons.right send

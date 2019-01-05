@@ -3,12 +3,32 @@
   div#top
     .row
 
-      .col.s6.top-contents
+      .col.s6.top-contents.fixed
 
-        / = image_tag 'command.jpg', class: 'command-image'
+        = image_tag 'command.jpg', class: 'command-image'
 
-      .col.s6.top-contents
+      .col.s6.offset-s6.top-contents
         = render 'layouts/top_header'
+
+        .row
+          .section.title-section
+            .center.service-header
+              h2.logo Commandware
+              p もうあの一行をググりたくない全ての人に捧ぐ
+
+        .row
+          .section
+            .col.s6
+              p 1. 忘れたくない一連の流れに名前をつける
+              = image_tag 'flow_sample.png', class: 'command-image'
+            .col.s6
+              p 2. そこにコマンドを登録する
+              = image_tag 'command_sample.png', class: 'command-image'
+        .row
+          .section.center
+            .col.s12
+              h2 → Happy
+
 
 - else
 
