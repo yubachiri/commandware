@@ -1,0 +1,80 @@
+= javascript_pack_tag 'commandware'
+
+#commandware
+  .row
+    / サイドバー（Flow一覧）
+    .col.s2
+      .collection.with-header
+        .collection-header
+          | Flows
+        .collection-item.new-flow-section
+          form @submit.prevent="postFlow"
+          input.new-flow-input type="text" placeholder="add by push Enter" v-model="newFlow"
+        .collection-item.clickable-item {v-for="flow in flows" :key="flow.id" @click="commandsDisplay(flow.id)"} = "{{flow.name}}"
+
+    / メイン
+    .col.s10
+      .row
+
+        / コマンド一覧
+        div.card.command-view {v-if="commandViewVisible" :class="viewGrid"}
+
+          nav.panel-header
+            .nav-wrapper
+              a.brand-logo = "{{flow.name}}"
+              ul.right
+                li
+                  a.btn-floating.btn-small.left {@click="newCommandForm"}
+                    i.material-icons.light-blue add
+                li
+                  a.btn-floating.btn-small.right {@click="commandViewDisappear"}
+                    i.material-icons.red close
+
+          .section.commands-main
+            table
+              thead
+                th name
+                th description
+                th command
+              tbody
+                tr.clickable-item {v-for="command in commands" :key="command.id" @click="commandDisplay(command.id)"}
+                  td = "{{command.name}}"
+                  td = "{{command.description}}"
+                  td = "{{command.command}}"
+
+
+        / コマンド詳細
+        div.card.detail-view {v-if="detailViewVisible" :class="viewGrid"}
+
+          nav.panel-header
+            .nav-wrapper
+              a.brand-logo {v-if="command.name"} = "{{command.name}}"
+              a.brand-logo {v-else} New Command
+              ul.right
+                li {v-if="!detailEditable"}
+                  a.btn-floating.btn-small.left {@click="openEditCommandForm"}
+                    i.material-icons.light-green edit
+                li
+                  a.btn-floating.btn-small.right {@click="detailViewDisappear"}
+                    i.material-icons.red close
+
+          // view
+          .section.detail-main {v-if="!detailEditable"}
+            p = "name: {{command.name}}"
+            p = "description: {{command.description}}"
+            p = "command: {{command.command}}"
+
+          // new & edit
+          .section.detail-main {v-if="detailEditable"}
+            form @submit.prevent="saveCommand(flow.id, command.id)"
+            input type="hidden" v-model="editCommand.id"
+
+            .input-field
+              input id="command[name]" type="text" v-model="editCommand.name" placeholder="name"
+            .input-field
+              textarea.materialize-textarea id="command[description]" v-model="editCommand.description" placeholder="description"
+            .input-field
+              input id="command[command]" type="text" v-model="editCommand.command" placeholder="command"
+            button class="btn waves-effect waves-light right" type="submit" name="action"
+              | Submit
+              i.material-icons.right send
