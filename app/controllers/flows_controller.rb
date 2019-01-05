@@ -19,10 +19,16 @@ class FlowsController < ApplicationController
   def create
     @flow = Flow.new(flow_params.merge(user: current_user))
 
-    if @flow.save
-      redirect_to @flow, notice: 'Flow was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+
+      if @flow.save
+        format.html { redirect_to @flow, notice: 'Flow was successfully created.' }
+        format.json { render :show }
+      else
+        format.html { render :new }
+        format.json { render json: @flow.errors, status: 500}
+      end
+
     end
   end
 

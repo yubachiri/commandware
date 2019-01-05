@@ -19,20 +19,30 @@ class CommandsController < ApplicationController
   end
 
   def create
-    @command = Command.new(command_params)
+    @command = current_user.flows.find_by(id: params[:flow_id]).commands.new(command_params)
 
-    if @command.save
-      redirect_to flow_commands_path(@flow), notice: 'Command was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+
+      if @command.save
+        format.html { redirect_to flow_commands_path(@flow), notice: 'Command was successfully created.' }
+        format.json { render :show }
+      else
+        format.html { render :new }
+        format.json { render json: @command.errors, status: 500 }
+      end
+
     end
   end
 
   def update
-    if @command.update(command_params)
-      redirect_to flow_commands_path(@flow), notice: 'Command was successfully updated.'
-    else
-      render :edit
+    respond_to do |format|
+      if @command.update(command_params)
+        format.html { redirect_to flow_commands_path(@flow), notice: 'Command was successfully updated.' }
+        format.json { render :show }
+      else
+        format.html { render :edit }
+        format.json { render json: @command.errors, status: 500 }
+      end
     end
   end
 

@@ -2,9 +2,13 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex';
 import store from '../store/index';
 import axios from 'axios';
-// import TurbolinksAdapter from 'vue-turbolinks'
 
 Vue.use(Vuex);
+
+axios.defaults.headers.common = {
+  'X-Requested-With': 'XMLHttpRequest',
+  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
@@ -12,10 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     store,
 
     data: {
-      flows: gon.flows,
-      flow: {},
-      commands: [],
-      command: {},
+      newFlow: '',
+      editCommand: {
+        name: '',
+        description: '',
+        command: ''
+      },
+      detailEditable: false,
     },
 
     computed: {
@@ -29,54 +36,160 @@ document.addEventListener('DOMContentLoaded', () => {
         return store.state.detailViewVisible
       },
 
+      flow: function () {
+        return store.state.flow
+      },
+      flows: function () {
+        return store.state.flows
+      },
+      commands: function () {
+        return store.state.commands
+      },
+      command: function () {
+        return store.state.command
+      },
+
     },
 
     methods: {
 
       commandsDisplay(flowId) {
-        this.commandViewToggle()
+        this.commandViewAppear()
         this.getFlow(flowId)
         this.getCommands(flowId)
       },
 
       commandDisplay(commandId) {
-        this.detailViewToggle()
+        this.detailEditable = false
+        this.detailViewAppear()
         this.getCommand(commandId)
       },
 
-      commandViewToggle() {
-        store.commit('viewToggle', {targetView: 'commandView'})
+      commandViewAppear() {
+        store.commit('viewToggle', {targetView: 'commandView', isShow: true})
       },
-      detailViewToggle() {
-        store.commit('viewToggle', {targetView: 'detailView'})
+      detailViewAppear() {
+        store.commit('viewToggle', {targetView: 'detailView', isShow: true})
+      },
+      commandViewDisappear() {
+        store.commit('viewToggle', {targetView: 'commandView', isShow: false})
+      },
+      detailViewDisappear() {
+        store.commit('viewToggle', {targetView: 'detailView', isShow: false})
       },
 
       getFlows() {
         axios.get('/flows.json')
           .then(response => {
-            this.flows = response.data
+            store.commit('assignFlows', response.data)
           })
       },
 
       getFlow(flowId) {
         axios.get(`/flows/${flowId}.json`)
           .then(response => {
-            this.flow = response.data
+            store.commit('assignFlow', response.data)
+          })
+      },
+
+      postFlow() {
+        axios.post(`/flows.json`, {
+          flow: {
+            name: this.newFlow
+          }
+        })
+          .then(response => {
+            this.newFlow = ''
+            store.commit('addFlow', response.data)
+          })
+          .catch(error => {
+            alert('エラーが発生しました。')
           })
       },
 
       getCommands(flowId) {
         axios.get(`/flows/${flowId}/commands.json`)
           .then(response => {
-            this.commands = response.data
+            store.commit('assignCommands', response.data)
           })
       },
 
       getCommand(commandId) {
-        this.command = this.commands.filter(command => {
+        const command = this.commands.filter(command => {
           return command.id === commandId
         })[0]
-      }
+        store.commit('assignCommand', command)
+      },
+
+      newCommandForm() {
+        this.detailEditable = true
+        this.editCommand = {
+          id: null,
+          name: '',
+          description: '',
+          command: ''
+        }
+        this.detailViewAppear()
+        store.commit('cleanCommand')
+      },
+
+      openEditCommandForm() {
+        this.detailEditable = true
+        this.editCommand = store.state.command
+      },
+
+      saveCommand(flowId, commandId){
+        if(commandId === undefined){
+          this.postCommand(flowId)
+        } else {
+          this.updateCommand(flowId, commandId)
+        }
+      },
+
+      postCommand(flowId) {
+        axios.post(`/flows/${flowId}/commands.json`, {
+          command: {
+            name: this.editCommand.name,
+            description: this.editCommand.description,
+            command: this.editCommand.command
+          }
+        })
+          .then(response => {
+            this.editCommand = {
+              name: '',
+              description: '',
+              command: ''
+            }
+            store.commit('addCommand', response.data)
+            this.detailViewDisappear()
+          })
+          .catch(error => {
+            alert('コマンド追加の際にエラーが発生しました。')
+          })
+      },
+
+      updateCommand(flowId, commandId) {
+        axios.put(`/flows/${flowId}/commands/${commandId}.json`, {
+          command: {
+            name: this.editCommand.name,
+            description: this.editCommand.description,
+            command: this.editCommand.command
+          }
+        })
+          .then(response => {
+            this.editCommand = {
+              name: '',
+              description: '',
+              command: ''
+            }
+            store.commit('updateCommand', response.data)
+            this.detailViewDisappear()
+          })
+          .catch(error => {
+            alert('コマンド更新の際にエラーが発生しました。')
+          })
+      },
+
     },
 
   })
