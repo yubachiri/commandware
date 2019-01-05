@@ -10,8 +10,8 @@
           .collection-header
             | Flows
           .collection-item.new-flow-section
-            form @submit.prevent= "postFlow"
-            input.new-flow-input type="text" placeholder="add by push Enter" v-model="newFlow"
+            form @submit.prevent="postFlow"
+              input.new-flow-input type="text" placeholder="add by push Enter" v-model="newFlow"
           .collection-item.clickable-item {v-for="flow in flows" :key="flow.id" @click="commandsDisplay(flow.id)"} = "{{flow.name}}"
 
       / メイン
